@@ -1,6 +1,6 @@
 class LevelProgress extends HTMLElement {
     static get observedAttributes() {
-        return ["max", "value"];
+        return ["level", "max", "value"];
     }
 
     constructor() {
@@ -39,6 +39,7 @@ class LevelProgress extends HTMLElement {
     }
 
     connectedCallback() {
+        if (!this.hasAttribute("level")) this.setAttribute("level", "1");
         if (!this.hasAttribute("max")) this.setAttribute("max", "1");
         if (!this.hasAttribute("value")) this.setAttribute("value", "0");
         this.updateProgress();
@@ -46,6 +47,15 @@ class LevelProgress extends HTMLElement {
 
     attributeChangedCallback(name, oldValue, newValue) {
         this.updateProgress();
+    }
+
+    get level() {
+        return Number(this.getAttribute("level"));
+    }
+
+    set level(value) {
+        if (typeof value !== "number") throw TypeError();
+        this.setAttribute("level", String(value));
     }
 
     get max() {
