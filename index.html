@@ -6,6 +6,25 @@
     <script src="level-progress.js" defer></script>
 </head>
 <body>
-<level-progress level="1" max="100" value="30"></level-progress>
+<level-progress level="1" max="100" value="30" id="levelProgress"></level-progress>
+<fieldset>
+    <legend>Update state</legend>
+    <label for="level">Level:</label>
+    <input type="number" id="level" value="1">
+    <label for="max">Max:</label>
+    <input type="number" id="max" value="100">
+    <label for="value">Value:</label>
+    <input type="number" id="value" value="30">
+    <button type="button" onclick="submit()">Update</button>
+</fieldset>
+<script>
+    function submit() {
+        document.getElementById("levelProgress").state = {
+            level: Number(document.getElementById("level").value),
+            max: Number(document.getElementById("max").value),
+            value: Number(document.getElementById("value").value)
+        }
+    }
+</script>
 </body>
 </html>

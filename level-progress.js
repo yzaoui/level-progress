@@ -80,6 +80,14 @@ class LevelProgress extends HTMLElement {
         return this.value / this.max;
     }
 
+    set state({level, max, value}) {
+        this.level = level;
+        this.max = max;
+        this.value = value;
+
+        this.updateProgress();
+    }
+
     updateProgress() {
         this._shadowRoot.getElementById("inner").style.width = `${this.progress * 100}%`;
     }
