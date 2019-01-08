@@ -24,7 +24,7 @@ class LevelProgress extends HTMLElement {
 
 #inner {
     height: 100%;
-    background: var(--bar-background-color, linear-gradient(#6de1ff, #00789c));
+    background: var(--fill-color, linear-gradient(#6de1ff, #00789c));
 }
 </style>
 <div id="outer">
