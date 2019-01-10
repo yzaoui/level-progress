@@ -63,47 +63,74 @@ class LevelProgress extends HTMLElement {
         /**
          * Reference to progress animation interval handler.
          *
-         * @type {number}
+         * @type {?number}
          * @private
          */
-        this._timer = undefined;
+        this._timer = null;
     }
 
     connectedCallback() {
-        if (!this.hasAttribute("level")) this.setAttribute("level", "1");
-        if (!this.hasAttribute("max")) this.setAttribute("max", "1");
-        if (!this.hasAttribute("value")) this.setAttribute("value", "0");
-        this.updateProgress();
+        if (this.hasAttribute("level")) {
+            this._level = Number(this.getAttribute("level"));
+        } else {
+            this.level = 1;
+        }
+        if (this.hasAttribute("max")) {
+            this._max = Number(this.getAttribute("max"));
+        } else {
+            this.max = 1;
+        }
+        if (this.hasAttribute("value")) {
+            this._value = Number(this.getAttribute("value"));
+        } else {
+            this.value = 0;
+        }
+
+        this._currentProgress = {
+            percentage: this.value / this.max,
+            level: this.level
+        };
+        this._shadowRoot.getElementById("inner").style.width = `${this._currentProgress.percentage * 100}%`;
+    }
+
+    disconnectedCallback() {
+        if (this._timer) {
+            clearInterval(this._timer);
+            this._timer = null;
+        }
     }
 
     get level() {
-        return Number(this.getAttribute("level"));
+        return this._level;
     }
 
     set level(value) {
         if (typeof value !== "number") throw new TypeError();
+        this._level = value;
         this.setAttribute("level", String(value));
     }
 
     get max() {
-        return Number(this.getAttribute("max"));
+        return this._max;
     }
 
     set max(value) {
         if (typeof value !== "number") throw new TypeError();
+        this._max = value;
         this.setAttribute("max", String(value));
     }
 
     get value() {
-        return Number(this.getAttribute("value"));
+        return this._value;
     }
 
     set value(value) {
         if (typeof value !== "number") throw new TypeError();
+        this._value = value;
         this.setAttribute("value", String(value));
     }
 
-    set state({level, max, value}) {
+    updateProgress({level, max, value}) {
         if (value < 0 || value > max) {
             throw new Error();
         }
@@ -152,14 +179,6 @@ class LevelProgress extends HTMLElement {
 
             this._shadowRoot.getElementById("inner").style.width = `${this._currentProgress.percentage * 100}%`;
         }, 10);
-    }
-
-    updateProgress() {
-        this._currentProgress = {
-            percentage: this.value / this.max,
-            level: this.level
-        };
-        this._shadowRoot.getElementById("inner").style.width = `${this._currentProgress.percentage * 100}%`;
     }
 }
 

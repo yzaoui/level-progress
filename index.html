@@ -19,11 +19,11 @@
 </fieldset>
 <script>
     function submit() {
-        document.getElementById("levelProgress").state = {
+        document.getElementById("levelProgress").updateProgress({
             level: Number(document.getElementById("level").value),
             max: Number(document.getElementById("max").value),
             value: Number(document.getElementById("value").value)
-        }
+        });
     }
 </script>
 </body>
