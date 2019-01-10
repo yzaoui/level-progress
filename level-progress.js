@@ -132,7 +132,7 @@ class LevelProgress extends HTMLElement {
 
     updateProgress({level, max, value}) {
         if (value < 0 || value > max) {
-            throw new Error();
+            throw new Error("value must be non-negative and less than max.");
         }
 
         if (this._currentProgress === undefined) {
