@@ -73,17 +73,20 @@ class LevelProgress extends HTMLElement {
         if (this.hasAttribute("level")) {
             this._level = Number(this.getAttribute("level"));
         } else {
-            this.level = 1;
+            this.setAttribute("level", String(1));
+            this._level = 1;
         }
         if (this.hasAttribute("max")) {
             this._max = Number(this.getAttribute("max"));
         } else {
-            this.max = 1;
+            this.setAttribute("max", String(1));
+            this._max = 1;
         }
         if (this.hasAttribute("value")) {
             this._value = Number(this.getAttribute("value"));
         } else {
-            this.value = 0;
+            this.setAttribute("value", String(0));
+            this._value = 0;
         }
 
         this._currentProgress = {
@@ -104,30 +107,12 @@ class LevelProgress extends HTMLElement {
         return this._level;
     }
 
-    set level(value) {
-        if (typeof value !== "number") throw new TypeError();
-        this._level = value;
-        this.setAttribute("level", String(value));
-    }
-
     get max() {
         return this._max;
     }
 
-    set max(value) {
-        if (typeof value !== "number") throw new TypeError();
-        this._max = value;
-        this.setAttribute("max", String(value));
-    }
-
     get value() {
         return this._value;
-    }
-
-    set value(value) {
-        if (typeof value !== "number") throw new TypeError();
-        this._value = value;
-        this.setAttribute("value", String(value));
     }
 
     updateProgress({level, max, value}) {
@@ -142,9 +127,12 @@ class LevelProgress extends HTMLElement {
             };
         }
 
-        this.level = level;
-        this.max = max;
-        this.value = value;
+        this._level = level;
+        this.setAttribute("level", String(level));
+        this._max = max;
+        this.setAttribute("max", String(max));
+        this._value = value;
+        this.setAttribute("value", String(value));
 
         this._targetProgress = {
             percentage: value / max,
