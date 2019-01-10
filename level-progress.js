@@ -115,7 +115,14 @@ class LevelProgress extends HTMLElement {
         return this._value;
     }
 
-    updateProgress({level, max, value}) {
+    /**
+     * Update the progress, starting the animation.
+     *
+     * @param {number} level
+     * @param {number} max
+     * @param {number} value
+     */
+    updateProgress({ level, max, value }) {
         if (value < 0 || value > max) {
             throw new Error("value must be non-negative and less than max.");
         }
